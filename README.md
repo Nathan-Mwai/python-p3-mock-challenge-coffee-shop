@@ -1,3 +1,179 @@
+
+# Coffee Shop System
+
+This repository contains a basic structure  of a coffee shop system using Python classes. My main goal was to use many to many relationships as well as ORM. It includes three main classes:
+
+
+1. **Coffee**: Represents a type of coffee.
+2. **Customer**: Represents a customer who can place orders.
+3. **Order**: Represents an order placed by a customer for a specific       coffee.
+
+## Fork and clone
+
+To deploy this project on your local machine
+
+```bash
+  fork and clone the repository
+  ```
+  The overview of the project is laid down below.
+
+## Classes
+
+### Coffee
+
+Represents a coffee with the following attributes and methods:
+
+
+- **Attributes:**
+  - `name`: The name of the coffee (string, 3 or more characters, immutable).
+  - `._orders`: List of orders that include this coffee.
+
+- **Methods:**
+  - `orders()`: Returns a list of all orders for this coffee.
+  - `add_order(order)`: Adds an `Order` instance to the list of orders for this coffee.
+  - `customers()`: Returns a unique list of all customers who have ordered this coffee.
+  - `num_orders()`: Returns the total number of times this coffee has been ordered.
+  - `average_price()`: Returns the average price of orders for this coffee. Returns 0 if no orders exist.
+
+
+### Customer
+
+Represents a customer with the following attributes and methods:
+
+- **Attributes:**
+  - `name`: The name of the customer (string, 1 to 15 characters).
+  - `orders`: List of orders placed by the customer.
+
+- **Methods:**
+  - `orders()`: Returns a list of all orders placed by this customer.
+  - `add_order(order)`: Adds an `Order` instance to the list of orders for this customer.
+  - `coffees()`: Returns a unique list of all coffee types ordered by this customer.
+  - `create_order(coffee, price)`: Creates and returns an `Order` instance for the specified coffee and price.
+
+### Order
+
+Represents an order with the following attributes and methods:
+
+- **Attributes:**
+  - `customer`: The customer who placed the order (must be an instance of `Customer`).
+  - `coffee`: The coffee that was ordered (must be an instance of `Coffee`).
+  - `price`: The price of the order (float, between 1.0 and 10.0, immutable).
+
+- **Methods:**
+  - `price`: Property to get and set the price of the order. Ensures price is between 1.0 and 10.0 and cannot be changed once set.
+  - `customer`: Property to get and set the customer who placed the order.
+  - `coffee`: Property to get and set the coffee that was ordered.
+
+## Usage
+
+From your VsCode terminal make sure to install:
+
+```sh
+pipenv install
+
+pipenv shell
+
+pip install ipdb
+```
+
+Here is a brief example of how to use these classes:
+```python
+import ipdb
+from your_module import Coffee, Customer, Order
+
+# Create some coffee types
+latte = Coffee("Latte")
+espresso = Coffee("Espresso")
+
+# Create customers
+alice = Customer("Alice")
+bob = Customer("Bob")
+
+# Create orders
+order1 = alice.create_order(latte, 5.0)
+order2 = bob.create_order(latte, 7.0)
+order3 = alice.create_order(espresso, 4.0)
+
+# Start debugging
+ipdb.set_trace()
+
+# Retrieve information
+print(latte.orders())  # List of orders for Latte
+print(latte.customers())  # List of customers who ordered Latte
+print(latte.num_orders())  # Total number of Latte orders
+print(latte.average_price())  # Average price of Latte orders
+
+print(Customer.most_aficionado(latte))
+```
+
+
+## Running Tests
+
+To run tests, run the following command
+
+```python
+  pytest
+  #  or
+  pytest -x
+```
+
+
+## Acknowledgements
+
+ - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
+ - [Awesome README](https://github.com/matiassingers/awesome-readme)
+ - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
+
+
+## Authors
+
+- [@NathanMwai](https://github.com/Nathan-Mwai)
+
+
+## 🛠 Skills
+Javascript, HTML, CSS, REACT, PYTHON
+# Just another work
+# Coffee Shop System
+
+## Class: `Coffee`
+
+| Property / Method     | Type                  | Description |
+|-----------------------|-----------------------|-------------|
+| `name`                | `str`                  | Coffee name. Read-only once set. Must be at least 3 characters long. |
+| `orders()`            | `List[Order]`          | Returns the list of all orders for this coffee. |
+| `add_order(order)`    | `Order`                | Adds an order to the coffee's order list. |
+| `customers()`         | `List[Customer]`       | Returns a list of unique customers who have ordered this coffee. |
+| `num_orders()`        | `int`                  | Returns the total number of orders for this coffee. |
+| `average_price()`     | `float`                | Returns the average price of all orders for this coffee. Returns 0 if no orders. |
+
+## Class: `Customer`
+
+| Property / Method              | Type                  | Description |
+|--------------------------------|-----------------------|-------------|
+| `name`                         | `str`                  | Customer name. Must be between 1 and 15 characters long. |
+| `orders()`                     | `List[Order]`          | Returns the list of all orders made by this customer. |
+| `add_order(order)`             | `Order`                | Adds an order to the customer's order list. |
+| `coffees()`                    | `List[Coffee]`         | Returns a list of unique coffees ordered by the customer. |
+| `create_order(coffee, price)`  | `Order`                | Creates a new order for the given coffee and price. |
+
+## Class: `Order`
+
+| Property / Method                         | Type                  | Description |
+|-------------------------------------------|-----------------------|-------------|
+| `price`                                   | `float`                | The price of the order. Must be between 1.0 and 10.0. |
+| `customer`                                | `Customer`             | The customer who made the order. |
+| `coffee`                                  | `Coffee`               | The coffee that was ordered. |
+| `__init__(customer, coffee, price)`       | `None`                 | Initializes a new order with the given customer, coffee, and price. |
+| `all`                                     | `List[Order]`          | Class attribute storing all orders. |
+
+## Method: `Customer.most_aficionado(coffee)`
+
+| Property / Method                         | Type                  | Description |
+|-------------------------------------------|-----------------------|-------------|
+| `most_aficionado(coffee)`                 | `Customer`            | Returns the customer who has spent the most money on the specified coffee. Returns `None` if no customers have ordered that coffee. |
+
+
+                            E         N          D          
 # Mock Code Challenge - Coffee Shop (Object Relationships)
 
 For this assignment, we'll be working with a Coffee shop-style domain.
