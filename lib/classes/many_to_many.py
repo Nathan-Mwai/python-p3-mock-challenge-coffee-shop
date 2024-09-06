@@ -43,17 +43,22 @@ class Coffee:
         return list(customers_orders)
     
     def num_orders(self):
-        pass
+        return len(self._orders)
     
     def average_price(self):
-        pass
+        if not self._orders:
+            return 0
+        total_price = sum(order.price for order in self._orders)
+        number_of_orders = len(self._orders)
+        
+        return total_price / number_of_orders
 
 class Customer:
     def __init__(self, name):
         self.name = name
         self._orders = []
         
-        # This are the initial properties
+    # This are the initial properties
     @property
     def name(self):
         return self._name
@@ -101,10 +106,13 @@ class Order:
     def price(self, amount):
         if hasattr(self, '_price') and self._price is not None:
             raise Exception('Amount cannot be changed once set')
+        
         if not isinstance(amount, float):
             raise Exception('Price must be into float format')
+        
         if not (1.0<= amount <=10.0):
             raise Exception('Number must be between 1.0 and 10.0')
+        
         self._price = amount
     # This where orm is initialized
     
