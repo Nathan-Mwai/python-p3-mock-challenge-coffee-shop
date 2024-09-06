@@ -89,6 +89,8 @@ class Customer:
         return Order(self, coffee, price)
     
 class Order:
+    
+    all = []
     def __init__(self, customer, coffee, price):
         self.customer = customer
         self.coffee = coffee
@@ -97,6 +99,7 @@ class Order:
         # Calling the function here adds order to the list
         coffee.add_order(self)
         customer.add_order(self)
+        Order.all.append(self)
         # This are the initial properties
     @property
     def price(self):
