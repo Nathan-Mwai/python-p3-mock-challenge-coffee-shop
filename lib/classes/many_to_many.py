@@ -2,6 +2,8 @@ class Coffee:
     def __init__(self, name):
         self._name = None
         self.name = name
+        self._orders = []
+    # This are the initial properties
     
     @property
     def name(self):
@@ -25,10 +27,20 @@ class Coffee:
         self._name = value
     
     def orders(self):
-        pass
+        return self._orders
+    
+    def add_order(self, order):
+        if not isinstance(order, Order):
+            raise TypeError('Order must be an instance of Order')
+        self._orders.append(order)
     
     def customers(self):
-        pass
+        customers_orders = set()
+        # customers_orders = {order.customer for order in self._orders if isinstance(order.customer, Customer)}
+        for order in self._orders:
+            if isinstance(order.customer, Customer):
+                customers_orders.add(order.customer)
+        return list(customers_orders)
     
     def num_orders(self):
         pass
@@ -40,11 +52,14 @@ class Customer:
     def __init__(self, name):
         self.name = name
         
+        # This are the initial properties
     @property
     def name(self):
         return self._name
     
     @name.setter
+            # Value will be the placeholder of all names to be filled
+
     def name(self, value):
         if not isinstance(value, str):
             raise Exception('Name must be a string')
@@ -59,7 +74,7 @@ class Customer:
         pass
     
     def create_order(self, coffee, price):
-        pass
+        return Order(self, coffee, price)
     
 class Order:
     def __init__(self, customer, coffee, price):
@@ -67,6 +82,9 @@ class Order:
         self.coffee = coffee
         self._price = None
         self.price = price
+        # Calling the function here adds order to the list
+        coffee.add_order(self)
+        # This are the initial properties
     @property
     def price(self):
         return self._price
@@ -80,3 +98,24 @@ class Order:
         if not (1.0<= amount <=10.0):
             raise Exception('Number must be between 1.0 and 10.0')
         self._price = amount
+    # This where orm is initialized
+    
+    @property
+    def customer(self):
+        return self._customer
+    
+    @customer.setter
+    def customer(self, related_to_customer):
+        if not isinstance(related_to_customer, Customer):
+            raise Exception('Customer must be a customer')
+        self._customer = related_to_customer
+    
+    @property
+    def coffee(self):
+        return self._coffee
+    
+    @coffee.setter
+    def coffee(self, related_to_coffee):
+        if not isinstance(related_to_coffee, Coffee):
+            raise Exception('Must be of instance Coffee')
+        self._coffee = related_to_coffee
