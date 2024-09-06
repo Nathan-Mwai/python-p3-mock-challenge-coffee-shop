@@ -65,4 +65,18 @@ class Order:
     def __init__(self, customer, coffee, price):
         self.customer = customer
         self.coffee = coffee
+        self._price = None
         self.price = price
+    @property
+    def price(self):
+        return self._price
+    
+    @price.setter
+    def price(self, amount):
+        if hasattr(self, '_price') and self._price is not None:
+            raise Exception('Amount cannot be changed once set')
+        if not isinstance(amount, float):
+            raise Exception('Price must be into float format')
+        if not (1.0<= amount <=10.0):
+            raise Exception('Number must be between 1.0 and 10.0')
+        self._price = amount
