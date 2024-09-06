@@ -51,6 +51,7 @@ class Coffee:
 class Customer:
     def __init__(self, name):
         self.name = name
+        self._orders = []
         
         # This are the initial properties
     @property
@@ -68,10 +69,16 @@ class Customer:
         self._name = value
  
     def orders(self):
-        pass
+        return self._orders
+    
+    def add_order(self, order):
+        if not isinstance(order, Order):
+            raise TypeError('Order must be an instance of Order')
+        self._orders.append(order)
     
     def coffees(self):
-        pass
+        coffee_orders = {order.coffee for order in self._orders if isinstance(order.coffee, Coffee)}
+        return list(coffee_orders)
     
     def create_order(self, coffee, price):
         return Order(self, coffee, price)
@@ -84,6 +91,7 @@ class Order:
         self.price = price
         # Calling the function here adds order to the list
         coffee.add_order(self)
+        customer.add_order(self)
         # This are the initial properties
     @property
     def price(self):
